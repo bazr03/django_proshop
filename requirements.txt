@@ -1,0 +1,7 @@
+Django>=3.1.5,<3.2.4
+djangorestframework>=3.12.2,<3.13.0
+django-cors-headers>=3.7,<3.8
+djangorestframework-simplejwt
+psycopg2-binary
+cloudinary
+django-environ

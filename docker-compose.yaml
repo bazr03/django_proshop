@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: dockerfiles/django.dockerfile
+    volumes:
+      - ./app:/var/www/djo_ecommerce
+      - static_volume:/app/static
+    ports:
+      - "5000:8000"
+    env_file: env/django.env
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: "always"
+    depends_on:
+      - db
+
+  admin:
+    build:
+      context: .
+      dockerfile: dockerfiles/djgadmin.dockerfile
+    volumes:
+      - ./app:/var/www/djo_ecommerce
+    env_file: env/django.env
+
+  db:
+    container_name: deb_db
+    image: postgres:12.0-alpine
+    env_file: env/postgresql.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
+  static_volume:
