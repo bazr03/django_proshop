@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfiles/django.prod.dockerfile
+    expose:
+      - 8000
+    env_file: env/django.prod.env
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_files:/home/app/web/staticfiles
+    restart: "always"
+    depends_on:
+      - db
+
+  db:
+    container_name: prod_db
+    image: postgres:12.0-alpine
+    env_file: env/postgresql.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  nginx:
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx.dockerfile
+    ports:
+      - 1337:80
+    volumes:
+      - static_files:/home/app/web/staticfiles
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_files:

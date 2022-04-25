@@ -4,12 +4,6 @@ FROM python:3.8-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt .
-
-
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r /requirements.txt
-
 RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
     && apk add jpeg-dev zlib-dev libjpeg libwebp-dev \
@@ -17,12 +11,13 @@ RUN apk update \
     && pip install Pillow \
     && apk del build-deps
 
-
-WORKDIR /var/www
-RUN mkdir djo_ecommerce
-
 WORKDIR /var/www/djo_ecommerce
-COPY ./app .
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY /app .
 RUN adduser -D user
 USER user
 

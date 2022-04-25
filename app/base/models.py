@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .utils.image_resize import image_resize
 # Create your models here.
 
+
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
@@ -21,9 +22,10 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class Image(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
-    product = models.ForeignKey(Product, related_name='images' ,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     url = models.URLField(null=True, blank=True)
     publicId = models.TextField(null=True, blank=True)
     isMain = models.BooleanField(default=False)
@@ -44,6 +46,7 @@ class Review(models.Model):
     def __str__(self) -> str:
         return str(self.rating)
 
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
@@ -61,6 +64,7 @@ class Order(models.Model):
     def __str__(self) -> str:
         return str(self.createdAt)
 
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -72,6 +76,7 @@ class OrderItem(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
 
 class ShippingAddress(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)

@@ -21,7 +21,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #environ.Env.read_env(os.path.join(BASE_DIR, '../env', 'django.env' ))
-#print(BASE_DIR)
+#print('BASE_DIR: ',BASE_DIR)
 #print(os.path.join(BASE_DIR, 'env', '.env' ))
 
 #print('BASE_DIR: ', BASE_DIR )
@@ -41,7 +41,7 @@ cloudinary.config(
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", default=0)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -197,6 +197,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -207,9 +208,12 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    BASE_DIR / 'build' / 'static'
+    BASE_DIR  / 'static',
+    BASE_DIR  / 'build' / 'static'
 ]
+
+#print('TEMPLATES_DIRS: ', os.path.join(BASE_DIR,  'build'))
+#print('STATICFILES_DIRS: ', STATICFILES_DIRS)
 
 MEDIA_ROOT = 'static/images'
 

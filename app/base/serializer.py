@@ -1,4 +1,4 @@
-from django.db.models import fields
+#from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -16,6 +16,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = '__all__'
 
+
 class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     # reviews = serializers.SerializerMethodField(read_only=True)
@@ -28,7 +29,6 @@ class ProductSerializer(serializers.ModelSerializer):
     #     review_list = obj.review_set.all()
     #     serializer = ReviewSerializer(review_list, many=True)
     #     return serializer.data
-
 
 
 class ShippingAddressSerializer(serializers.ModelSerializer):
@@ -88,6 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
         if name == '':
             name = obj.email
         return name
+
 
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
