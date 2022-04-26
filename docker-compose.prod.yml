@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: dockerfiles/django.prod.dockerfile
+      dockerfile: dockerfiles/django.dockerfile
     expose:
       - 8000
     env_file: env/django.prod.env

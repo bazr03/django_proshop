@@ -12,7 +12,6 @@ RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
     && apk add jpeg-dev zlib-dev libjpeg libwebp-dev \
     && apk add postgresql-dev  \
-    && pip install Pillow \
     && apk del build-deps
 
 # lint
@@ -45,10 +44,13 @@ RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apk update && apk add libpq zlib-dev
+RUN apk update && apk add --virtual build-deps gcc python3-dev musl-dev \
+	&& apk add jpeg-dev zlib-dev libjpeg \
+	&& apk del build-deps
+ 
 COPY --from=builder /var/www/djo_ecommerce/wheels /wheels
 COPY --from=builder /var/www/djo_ecommerce/requirements.txt .
-RUN pip install --no-cache /wheels/* Pillow
+RUN pip install --no-cache /wheels/* Pillow 
 
 
 
