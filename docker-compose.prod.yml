@@ -5,7 +5,7 @@ services:
     container_name: django_proshop
     build:
       context: .
-      dockerfile: dockerfiles/django.dockerfile
+      dockerfile: dockerfiles/django.prod.dockerfile
     expose:
       - 8000
     env_file: env/django.prod.env
