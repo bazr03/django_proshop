@@ -2,10 +2,9 @@ version: "3"
 
 services:
   web:
-    container_name: django_proshop
     build:
       context: .
-      dockerfile: dockerfiles/django.dockerfile
+      dockerfile: dockerfiles/django.prod.dockerfile
     expose:
       - 8000
     env_file: env/django.prod.env
@@ -34,7 +33,7 @@ services:
       context: .
       dockerfile: dockerfiles/nginx.dockerfile
     ports:
-      - 1337:80
+      - 1444:80
     volumes:
       - static_proshop_files:/home/app/web/staticfiles
     networks:
