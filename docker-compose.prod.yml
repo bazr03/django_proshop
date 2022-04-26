@@ -2,37 +2,54 @@ version: "3"
 
 services:
   web:
+    container_name: django_proshop
     build:
       context: .
-      dockerfile: dockerfiles/django.prod.dockerfile
+      dockerfile: dockerfiles/django.dockerfile
     expose:
       - 8000
     env_file: env/django.prod.env
     command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_files:/home/app/web/staticfiles
+      - static_proshop_files:/home/app/web/staticfiles
+    networks:
+      - frontend
+      - bckend
     restart: "always"
     depends_on:
       - db
 
   db:
-    container_name: prod_db
-    image: postgres:12.0-alpine
+    image: ubuntu/postgres:14-22.04_beta
+    container_name: postgres_proshop
     env_file: env/postgresql.env
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_proshop_data:/var/lib/postgresql/data/
+    networks:
+      - bckend
 
   nginx:
+    container_name: nginx_proshop
     build:
       context: .
       dockerfile: dockerfiles/nginx.dockerfile
     ports:
       - 1337:80
     volumes:
-      - static_files:/home/app/web/staticfiles
+      - static_proshop_files:/home/app/web/staticfiles
+    networks:
+      - frontend
     depends_on:
       - web
 
 volumes:
-  postgres_data:
-  static_files:
+  postgres_proshop_data:
+  static_proshop_files:
+
+networks:
+  frontend:
+    external:
+      name: proxynet
+  bckend:
+    external:
+      name: backend

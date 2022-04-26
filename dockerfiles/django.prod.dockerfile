@@ -45,7 +45,7 @@ RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apk update && apk add libpq
+RUN apk update && apk add libpq zlib-dev
 COPY --from=builder /var/www/djo_ecommerce/wheels /wheels
 COPY --from=builder /var/www/djo_ecommerce/requirements.txt .
 RUN pip install --no-cache /wheels/* Pillow
