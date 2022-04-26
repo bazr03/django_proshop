@@ -18,6 +18,7 @@ RUN addgroup -S app && adduser -S app -G app
 ENV APP_HOME=/home/app/web
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $APP_HOME/staticfiles
+RUN mkdir -p $APP_HOME/static
 WORKDIR $APP_HOME
 
 COPY requirements.txt .

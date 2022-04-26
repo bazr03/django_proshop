@@ -32,8 +32,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/nginx.dockerfile
-    ports:
-      - 1444:80
+    expose:
+      - 1444
     volumes:
       - static_proshop_files:/home/app/web/staticfiles
     networks:

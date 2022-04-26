@@ -10,7 +10,8 @@ nginx
 
 # Backup files # 
 *.bak 
-
+*.back?
+*.back
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
